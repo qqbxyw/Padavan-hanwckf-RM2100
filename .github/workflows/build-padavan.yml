@@ -38,6 +38,7 @@ jobs:
     - name: Clone source code
       run: |
         git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
+        CLONE_URL: https://github.com/qqbxyw/rt-n56u/tree/master/trunk/user/adguardhome.git /opt/rt-n56u
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
@@ -82,6 +83,7 @@ jobs:
         sed -i '/CONFIG_FIRMWARE_INCLUDE_TCPDUMP/d' configs/templates/$TNAME.config      #删除配置项TCPDUMP
         sed -i '/CONFIG_FIRMWARE_INCLUDE_EAP_PEAP/d' configs/templates/$TNAME.config     #删除配置项EAP_PEAP
         sed -i '/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EC/d' configs/templates/$TNAME.config   #删除配置项OPENSSL_EC
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME/d' configs/templates/$TNAME.config   #删除配置项ADGUARDHOME
         ####################################################################
         # 以下选项是定义你需要的功能（y=集成,n=忽略），重新写入到.config文件。
         ####################################################################
@@ -112,6 +114,7 @@ jobs:
         echo "CONFIG_FIRMWARE_INCLUDE_TCPDUMP=y" >> configs/templates/$TNAME.config      #删除TCPDUMP
         echo "CONFIG_FIRMWARE_INCLUDE_EAP_PEAP=y" >> configs/templates/$TNAME.config     #删除EAP_PEAP
         echo "CONFIG_FIRMWARE_INCLUDE_OPENSSL_EC=y" >> configs/templates/$TNAME.config   #删除OPENSSL_EC
+        echo "CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME=y" >> .config #集成adguardhome执行文件（14.3M左右)
         #########################################################################################
         # 自定义添加其它功能请参考源码configs/templates/目录下的config文件。按照上面的格式添加即可
         # 格式如下：
